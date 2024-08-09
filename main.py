@@ -60,7 +60,7 @@ while True:
         delete_old_data()
 
         # Wait for 1 second before the next fetch
-        time.sleep(1)
+        time.sleep(60)
     
     except Exception as e:
         print(f"Error occurred: {e}")
