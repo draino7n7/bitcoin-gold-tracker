@@ -39,25 +39,32 @@ def delete_old_data():
 
 # Fetch Bitcoin and Gold prices every second
 while True:
-    # Get the current price of Bitcoin
-    btc = yf.Ticker("BTC-USD")
-    bitcoin_price = btc.info['regularMarketPrice']
+    try:
+        # Get the current price of Bitcoin
+        btc = yf.Ticker("BTC-USD")
+        btc_data = btc.history(period="1d", interval="1m")
+        bitcoin_price = btc_data['Close'].iloc[-1]
 
-    # Get the current price of Gold
-    gold = yf.Ticker("GC=F")  # "GC=F" is the Yahoo Finance ticker symbol for Gold futures
-    gold_price = gold.info['regularMarketPrice']
+        # Get the current price of Gold
+        gold = yf.Ticker("GC=F")  # "GC=F" is the Yahoo Finance ticker symbol for Gold futures
+        gold_data = gold.history(period="1d", interval="1m")
+        gold_price = gold_data['Close'].iloc[-1]
 
-    # Get the current UTC timestamp using timezone-aware datetime
-    current_time = datetime.now(timezone.utc)
+        # Get the current UTC timestamp using timezone-aware datetime
+        current_time = datetime.now(timezone.utc)
 
-    # Insert the prices into the database with the same timestamp
-    insert_price(current_time, bitcoin_price, gold_price)
+        # Insert the prices into the database with the same timestamp
+        insert_price(current_time, bitcoin_price, gold_price)
 
-    # Delete data older than 25 hours
-    delete_old_data()
+        # Delete data older than 25 hours
+        delete_old_data()
 
-    # Wait for 1 second before the next fetch
-    time.sleep(1)
+        # Wait for 1 second before the next fetch
+        time.sleep(1)
+    
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        time.sleep(10)  # Wait 10 seconds before retrying
 
 # Close the connection (you can implement a proper shutdown process)
 cursor.close()
