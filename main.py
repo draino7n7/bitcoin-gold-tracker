@@ -41,13 +41,11 @@ def delete_old_data():
 while True:
     # Get the current price of Bitcoin
     btc = yf.Ticker("BTC-USD")
-    btc_data = btc.history(period="1m")
-    bitcoin_price = btc_data['Close'].iloc[-1]
+    bitcoin_price = btc.info['regularMarketPrice']
 
     # Get the current price of Gold
     gold = yf.Ticker("GC=F")  # "GC=F" is the Yahoo Finance ticker symbol for Gold futures
-    gold_data = gold.history(period="1m")
-    gold_price = gold_data['Close'].iloc[-1]
+    gold_price = gold.info['regularMarketPrice']
 
     # Get the current UTC timestamp using timezone-aware datetime
     current_time = datetime.now(timezone.utc)
