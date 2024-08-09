@@ -59,12 +59,12 @@ while True:
         # Delete data older than 25 hours
         delete_old_data()
 
-        # Wait for 1 second before the next fetch
+        # Wait for 1 minute before the next fetch
         time.sleep(60)
     
     except Exception as e:
         print(f"Error occurred: {e}")
-        time.sleep(10)  # Wait 10 seconds before retrying
+        time.sleep(60)  # Wait 60 seconds before retrying
 
 # Close the connection (you can implement a proper shutdown process)
 cursor.close()
