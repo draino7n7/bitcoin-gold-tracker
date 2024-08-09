@@ -19,11 +19,11 @@ cursor = conn.cursor()
 def insert_price(timestamp, bitcoin_price, gold_price):
     cursor.execute(
         "INSERT INTO bitcoin_prices (timestamp, price) VALUES (%s, %s)", 
-        (timestamp, bitcoin_price)
+        (timestamp, float(bitcoin_price))
     )
     cursor.execute(
         "INSERT INTO gold_prices (timestamp, price) VALUES (%s, %s)", 
-        (timestamp, gold_price)
+        (timestamp, float(gold_price))
     )
     conn.commit()
 
